@@ -21,6 +21,6 @@ Route::get('/', function () {
 Route::post('/login', [AuthController::class, 'userLogin']);
 Route::get('/register', [AuthController::class, 'Register']);
 Route::post('/register', [AuthController::class, 'userRegister']);
-Route::get('/barcode', [AuthController::class, 'barcode']);
 Route::get('/verification', [AuthController::class, 'verification']);
 Route::get('/dashboard', [AuthController::class, 'dashboard']);
+Route::get('/logout', [AuthController::class, 'logout']);
