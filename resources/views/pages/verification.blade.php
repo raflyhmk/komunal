@@ -13,7 +13,7 @@
                                 <div class="p-5">
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900">Mohon masukan kode otp</h1>
-                                        <h5 class="mb-4 text-left"><span class="mobile-text">Kami baru saja mengirimkan kode otp ke nomor <b class="text-danger">+91 86684833</b></span></h5>
+                                        <h5 class="mb-4 text-left"><span class="mobile-text">Kami baru saja mengirimkan kode otp ke email <b class="text-danger">{{$user->email}}</b></span></h5>
                                     </div>
                                     @if(session('status'))
                                     <div class="alert alert-{{ session('status') }}">
@@ -26,10 +26,7 @@
                                     <form class="user" method="post" action="">
                                     @csrf
                                         <div class="d-flex flex-row mb-4">
-                                            <input type="text" class="form-control" autofocus="">
-                                            <input type="text" class="form-control">
-                                            <input type="text" class="form-control">
-                                            <input type="text" class="form-control">
+                                            <input type="text" class="form-control" autofocus="" name="input_otp">
                                         </div>
                                         <button class="btn btn-primary btn-user btn-block" type="submit">Login</button>
                                     </form>

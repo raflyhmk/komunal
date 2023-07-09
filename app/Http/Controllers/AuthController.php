@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\testMail;
 use App\Models\User;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
@@ -38,15 +40,26 @@ class AuthController extends Controller
         ]);
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            $otp = str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
+            $email = $request->input('email');
+            Mail::to($email)->send(new testMail($otp));
+            $request->session()->put('otp', $otp);
             return redirect()->intended('/verification');
         }
-        return redirect('/login')->with('status', 'failed')->with('message', 'Login gagal');
-    }
-    public function Barcode(){
-        return view('pages.barcode');
+        return redirect('/')->with('status', 'failed')->with('message', 'Login gagal');
     }
     public function verification(){
-        return view('pages.verification');
+        $user = User::where('email', Auth::user()->email)->first();
+        return view('pages.verification', compact(['user']));
+    }
+    public function testVerification(Request $request){
+        $user = User::where('email', Auth::user()->email)->first();
+        $otp = $request->session()->get('otp');
+        if ($request->input('input_otp') == $otp) {
+        return redirect('/dashboard');
+        } else {
+            return view('pages.verification', compact(['user']))->with('status', 'failed')->with('message', 'kode otp salah');
+        }
     }
     public function Dashboard(){
         return view('pages.dashboard');
