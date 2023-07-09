@@ -22,7 +22,7 @@
                                         </button>
                                     </div>
                                     @endif
-                                    <form class="user" method="post" action="">
+                                    <form class="user" method="post" action="/login">
                                     @csrf
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
